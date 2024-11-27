@@ -6,7 +6,7 @@ This repository provides a set of automated steps to analyze CVE-related vulnera
 
 ### 1. Extract CVE Information
 
-- **Script**: `extract_NVD.py`
+- **Script**: `Data_Preprocess/extract_NVD.py`
 - **Description**: Find the relevant files for each CVE and extract the necessary information.
 - **Data Structure**:
   ```python
@@ -15,32 +15,32 @@ This repository provides a set of automated steps to analyze CVE-related vulnera
 
 ### 2. Find Parent Commit
 
-- **Script**: `get_parent_sha.py`
+- **Script**: `Data_Preprocess/get_parent_sha.py`
 - **Description**: Retrieve the parent commit for each CVE-related commit.
 
 ### 3. Checkout Vulnerable and Non-Vulnerable Projects
 
-- **Script**: `get_projects.py`
+- **Script**: `Data_Preprocess/get_projects.py`
 - **Description**: Checkout both vulnerable and non-vulnerable versions of the projects for analysis.
 
 ### 4. Analyze Projects Using Joern
 
-- **Script**: `run_joern.py`
+- **Script**: `Data_Preprocess/run_joern.py`
 - **Description**: Use Joern to analyze the vulnerable and non-vulnerable versions of the projects.
 
 ### 5. Extract Branch Summaries
 
-- **Script**: `extract_API_summary.py`
+- **Script**: `Primitive_API_Abstraction/extract_API_summary_fuzzy_branches.py`
 - **Description**: Extract branch summaries and represent them in three different formats.
 
 
 ### 6. Test the Models
 
 - **Scripts**:
-    - `run.py`
-    - `run_baseline.py`
-    - `prompts.py`
-    - `judge.py`
+    - `Prompts/ChatGPT(Codellama,DeepSeek)/run.py`
+    - `Prompts/ChatGPT(Codellama,DeepSeek)/run_baseline.py`
+    - `Prompts/ChatGPT(Codellama,DeepSeek)/prompts.py`
+    - `Prompts/ChatGPT(Codellama,DeepSeek)/judge.py`
 
 - **Supported Models**
 
@@ -50,9 +50,9 @@ This repository supports three models for vulnerability analysis:
 3. **CodeLlama**: Optimized for large-scale code analysis.
 
 - **Each model has its own set of scripts located in specific directories:**
-    - `src/ChatGPT/`
-    - `src/DeepSeek/`
-    - `src/CodeLlama/`
+    - `Prompts/ChatGPT/`
+    - `Prompts/DeepSeek/`
+    - `Prompts/CodeLlama/`
 
 - **Each script (`run.py`, `run_baseline.py`, `prompts.py`, and `judge.py`) has the same command-line structure but is tailored for the respective model.**
 
@@ -95,19 +95,19 @@ Different datasets correspond to distinct levels of Primitive API Abstraction:
 - **Example Commands**:
     - **ChatGPT**:
       ```bash
-      cd src/ChatGPT
+      cd Prompts/ChatGPT
       python run.py --api_key sk-<your_api_key> --data_file A1.pkl --prompt_type basic
       ```
 
     - **DeepSeek**:
       ```bash
-      cd src/DeepSeek
+      cd Prompts/DeepSeek
       python run.py --api_key sk-<your_api_key> --data_file A2.pkl --prompt_type cot
       ```
 
     - **CodeLlama**:
       ```bash
-      cd src/CodeLlama
+      cd Prompts/CodeLlama
       python run.py --data_file Basic.pkl --prompt_type few_shot
       ```
 
@@ -131,18 +131,19 @@ Different datasets correspond to distinct levels of Primitive API Abstraction:
 - **Example**:
     - **ChatGPT**:
       ```bash
-      cd src/ChatGPT
+      cd Prompts/ChatGPT
       python run_baseline.py --api_key sk-<your_api_key> --callee_key whole_callees
       ```
 
     - **DeepSeek**:
+      
       ```bash
-      cd src/DeepSeek
+      cd Prompts/DeepSeek
       python run_baseline.py --api_key sk-<your_api_key> --callee_key API_sample_callees
       ```
     - **CodeLlama**:
       ```bash
-      cd src/CodeLlama
+      cd Prompts/CodeLlama
       python run_baseline.py --callee_key random_sampled_callees
       ```
 ---
@@ -183,18 +184,18 @@ Different datasets correspond to distinct levels of Primitive API Abstraction:
 
     - **For ChatGPT**:
       ```bash
-      cd src/ChatGPT
+      cd Prompts/ChatGPT
       python judge.py --results_file ../../result/gpt-4o_basic_A1.json
       ```
 
     - **For DeepSeek**:
       ```bash
-      cd src/DeepSeek
+      cd Prompts/DeepSeek
       python judge.py --results_file ../../result/deepseek_direct_A2.json
       ```
     - **For CodeLlama**:
       ```bash
-      cd src/CodeLlama
+      cd Prompts/CodeLlama
       python judge.py --results_file ../../result/codellama_role_play_A1.json
       ```
 ---
